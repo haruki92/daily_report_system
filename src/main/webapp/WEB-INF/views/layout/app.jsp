@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
     <title><c:out value="日報管理システム" /></title>
-    <link rel="stylesheet" href="<c:url value='/css/reset.css'></c:url>">
-    <link rel="stylesheet" href="<c:url value='/css/style.css'></c:url>">
+    <link rel="stylesheet" href="<c:url value='/css/reset.css' />">
+    <link rel="stylesheet" href="<c:url value='/css/style.css' />">
 </head>
 <body>
     <div id="wrapper">
