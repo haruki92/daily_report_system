@@ -188,11 +188,11 @@ public abstract class ActionBase {
 
 	/**
 	 * リクエストパラメータから引数で指定したパラメータ名の値を返却する
-	 * @param key パラメータ名
+	 * @param token パラメータ名
 	 * @return パラメータの値
 	 */
-	protected String getRequestParam(AttributeConst key) {
-		return request.getParameter(key.getValue());
+	protected String getRequestParam(AttributeConst token) {
+		return request.getParameter(token.getValue());
 	}
 
 	/**
