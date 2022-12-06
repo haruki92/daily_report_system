@@ -171,4 +171,41 @@ public class ReportAction extends ActionBase {
 		}
 	}
 
+	//	更新を行う
+	public void update() throws ServletException, IOException {
+		//		CSRF対策　tokenのチェック
+		if (checkToken()) {
+			//			idを条件に日報データを取得する
+			ReportView rv = service.find0ne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+			//			入力された日報内容を設定する
+			rv.setReportDate(toLocalDate(getRequestParam(AttributeConst.REP_DATE)));
+			rv.setTitle(getRequestParam(AttributeConst.REP_TITLE));
+			rv.setContent(getRequestParam(AttributeConst.REP_CONTENT));
+
+			//			日報データを更新する
+			List<String> errors = service.update(rv);
+
+			//			更新中にエラーが発生した場合
+			if (errors.size() > 0) {
+				//				CSRF対策用トークン
+				putRequestScope(AttributeConst.TOKEN, getTokenId());
+				//				入力された日報情報
+				putRequestScope(AttributeConst.REPORT, rv);
+				//				エラーのリスト
+				putRequestScope(AttributeConst.ERR, errors);
+
+				//				編集画面を再表示
+				forward(ForwardConst.FW_REP_EDIT);
+			} else {
+				//				更新中にエラーがなかった場合
+				//				セッションに更新完了のフラッシュメッセージを設定
+				putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
+
+				//				一覧画面にリダイレクト
+				redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
+			}
+		}
+	}
+
 }
