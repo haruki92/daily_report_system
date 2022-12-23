@@ -41,7 +41,7 @@ public class Report {
 	 */
 	@Id
 	@Column(name = JpaConst.REP_COL_ID)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // テーブルのidentity列を利用して主キー値を生成
 	private Integer id;
 
 	/**
