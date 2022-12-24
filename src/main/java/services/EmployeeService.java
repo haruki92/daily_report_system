@@ -36,7 +36,7 @@ public class EmployeeService extends ServiceBase {
 	 * @return 従業員テーブルのデータの件数
 	 */
 	public long countAll() {
-		long empCount = (long) em.createNamedQuery(JpaConst.Q_EMP_COUNT, Long.class)
+		long empCount = em.createNamedQuery(JpaConst.Q_EMP_COUNT, Long.class)
 				.getSingleResult();
 
 		return empCount;
@@ -86,7 +86,7 @@ public class EmployeeService extends ServiceBase {
 	public long countByCode(String code) {
 
 		//指定した社員番号を保持する従業員の件数を取得する
-		long employees_count = (long) em.createNamedQuery(JpaConst.Q_EMP_COUNT_REGISTERED_BY_CODE, Long.class)
+		long employees_count = em.createNamedQuery(JpaConst.Q_EMP_COUNT_REGISTERED_BY_CODE, Long.class)
 				.setParameter(JpaConst.JPQL_PARM_CODE, code)
 				.getSingleResult();
 		return employees_count;
