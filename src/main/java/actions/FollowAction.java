@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import actions.views.EmployeeView;
 import actions.views.FollowView;
 import constants.AttributeConst;
 import constants.ForwardConst;
@@ -29,10 +30,14 @@ public class FollowAction extends ActionBase {
 		//		指定されたページ数の一覧画面に表示するデータを取得
 		int page = getPage();
 		List<FollowView> follows = service.getFollows(page);
+		List<EmployeeView> employees = service.getPerPage(page);
 
 		//		全ての従業員データの件数を取得
 		long followCount = service.getFollowCount();
+		long employeeCount = service.countAll();
 
+		putRequestScope(AttributeConst.EMPLOYEES, employees); //取得した従業員データ
+		putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数
 		putRequestScope(AttributeConst.FOLLOWS, follows); // 取得したフォロー中の従業員データ
 		putRequestScope(AttributeConst.FOL_COUNT, followCount); // フォロー中の従業員データの件数
 		putRequestScope(AttributeConst.PAGE, page); // ページ数
