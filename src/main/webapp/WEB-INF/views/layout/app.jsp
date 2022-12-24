@@ -7,6 +7,7 @@
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}"></c:set>
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}"></c:set>
 <c:set var="actAuth" value="${ForwardConst.ACT_AUTH.getValue()}"></c:set>
+<c:set var="actFol" value="${ForwardConst.ACT_FOL.getValue()}"></c:set>
 
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
 <c:set var="commOut" value="${ForwardConst.CMD_LOGOUT.getValue()}" />
@@ -28,6 +29,7 @@
                     <c:if test="${sessionScope.login_employee.adminFlag == AttributeConst.ROLE_ADMIN.getIntegerValue()}">
                         <a href="<c:url value='?action=${actEmp}&command=${commIdx}' />">従業員管理</a>&nbsp;
                     </c:if>
+                    <a href="<c:url value='?action=${actFol}&command=${commIdx}'></c:url>">従業員一覧</a>
                     <a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報管理</a>&nbsp;
                 </c:if>
             </div>
