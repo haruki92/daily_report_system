@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import models.Employee;
 
 //フォロー情報についての画面の入力値・出力値を扱うViewモデル
 @Getter
@@ -18,10 +17,10 @@ public class FollowView {
 	private Integer id;
 
 	//	フォローする従業員の従業員テーブルのid
-	private Employee employee_id;
+	private EmployeeView employee_id;
 
 	//	フォローされる従業員の従業員テーブルのid
-	private Employee follow_id;
+	private EmployeeView follow_id;
 
 	//	登録日時
 	private LocalDateTime created_at;
