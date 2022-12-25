@@ -3,9 +3,11 @@
 <%@ page import="constants.AttributeConst" %>
 <%@ page import="constants.ForwardConst" %>
 
+<c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}"></c:set>
 <c:set var="actFol" value="${ForwardConst.ACT_FOL.getValue()}"></c:set>
-<c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}"></c:set>
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}"></c:set>
+<c:set var="commFol" value="${ForwardConst.CMD_FOLLOW.getValue()}"></c:set>
+
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
@@ -27,14 +29,16 @@
                         <td><c:out value="${employee.code}" /></td>
                         <td><c:out value="${employee.name}" /></td>
                         <td>
-                            <c:choose>
-                                <c:when test="${employee.deleteFlag == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()}">
-                                    <button type="button" id="follow">フォローする</button>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" id="unfollow">フォロー解除する</button>
-                                </c:otherwise>
-                            </c:choose>
+                        	<form method="POST" action="?action=${actFol}&command=${commFol}&id=${employee.id}">
+	                            <c:choose>
+	                                <c:when test="${follow.deleteFlag == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()}">
+	                                    <button type="submit" id="follow">フォロー解除する</button>
+	                                </c:when>
+	                                <c:otherwise>
+	                                    <button type="submit" id="unfollow">フォローする</button>
+	                                </c:otherwise>
+	                            </c:choose>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -54,7 +58,7 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <p><a href="<c:url value='?action=${actEmp}&command=${commIdx}' />">トップへ戻る</a></p>
+        <p><a href="<c:url value='?action=${actTop}&command=${commIdx}' />">トップへ戻る</a></p>
 
     </c:param>
 </c:import>

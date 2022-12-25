@@ -12,8 +12,8 @@ public class FollowConverter {
 	public static Follow toModel(FollowView fv) {
 		return new Follow(
 				fv.getId(),
-				fv.getEmployee_id(),
-				fv.getFollow_id(),
+				EmployeeConverter.toModel(fv.getEmployee_id()),
+				EmployeeConverter.toModel(fv.getFollow_id()),
 				fv.getCreated_at(),
 				fv.getUpdated_at(),
 				fv.getDelete_flag() == null
@@ -31,8 +31,8 @@ public class FollowConverter {
 
 		return new FollowView(
 				f.getId(),
-				f.getEmployee_id(),
-				f.getFollow_id(),
+				EmployeeConverter.toView(f.getEmployee_id()),
+				EmployeeConverter.toView(f.getFollow_id()),
 				f.getCreated_at(),
 				f.getUpdated_at(),
 				f.getDelete_flag() == null
@@ -56,8 +56,8 @@ public class FollowConverter {
 	//	Viewモデルの全フィールドの内容をDTOモデルのフィールドにコピーする
 	public static void copyViewToModel(Follow f, FollowView fv) {
 		f.setId(fv.getId());
-		f.setEmployee_id(fv.getEmployee_id());
-		f.setFollow_id(fv.getFollow_id());
+		f.setEmployee_id(EmployeeConverter.toModel(fv.getEmployee_id()));
+		f.setEmployee_id(EmployeeConverter.toModel(fv.getFollow_id()));
 		f.setCreated_at(fv.getCreated_at());
 		f.setUpdated_at(fv.getUpdated_at());
 		f.setDelete_flag(fv.getDelete_flag());

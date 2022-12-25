@@ -8,7 +8,8 @@ public enum ForwardConst {
 	//command
 	CMD("command"), CMD_NONE(""), CMD_INDEX("index"), CMD_SHOW("show"), CMD_SHOW_LOGIN("showLogin"), CMD_LOGIN(
 			"login"), CMD_LOGOUT("logout"), CMD_NEW(
-					"entryNew"), CMD_CREATE("create"), CMD_EDIT("edit"), CMD_UPDATE("update"), CMD_DESTROY("destroy"),
+					"entryNew"), CMD_CREATE("create"), CMD_EDIT(
+							"edit"), CMD_UPDATE("update"), CMD_DESTROY("destroy"), CMD_FOLLOW("follow"),
 
 	//jsp
 	FW_ERR_UNKNOWN("error/unknown"), FW_TOP_INDEX("topPage/index"), FW_LOGIN("login/login"), FW_EMP_INDEX(
