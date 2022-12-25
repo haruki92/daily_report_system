@@ -10,14 +10,17 @@ import actions.views.FollowView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
+import services.EmployeeService;
 import services.FollowService;
 
 public class FollowAction extends ActionBase {
 	private FollowService service;
+	private EmployeeService employeeService;
 
 	@Override
 	public void process() throws ServletException, IOException {
 		service = new FollowService();
+		employeeService = new EmployeeService();
 
 		//		メソッドを実行
 		invoke();
@@ -26,7 +29,6 @@ public class FollowAction extends ActionBase {
 
 	//	一覧画面を表示する
 	public void index() throws ServletException, IOException {
-		System.out.println("Action:" + ForwardConst.ACT_FOL + "command:" + ForwardConst.CMD_INDEX + "を実行します");
 		//		指定されたページ数の一覧画面に表示するデータを取得
 		int page = getPage();
 		List<FollowView> follows = service.getFollows(page);
@@ -45,5 +47,26 @@ public class FollowAction extends ActionBase {
 
 		//		一覧画面を表示
 		forward(ForwardConst.FW_FOL_INDEX);
+	}
+
+	//	フォローを行う
+	public void follow() throws ServletException, IOException {
+		//		セッションからログイン中の従業員情報を取得　
+		EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+		//		idを条件にフォローされる従業員情報を取得
+		EmployeeView follower = employeeService.findOne(toNumber(getRequestParam(AttributeConst.FOL_ID)));
+
+		//		パラメータの値を元にフォローされる従業員情報のインスタンスを作成する
+		FollowView fv = new FollowView(
+				null, // Integer id
+				ev, // Employee employee_id
+				follower, // Employee follow_id
+				null, // LocalDateTime created_at
+				null, // LocalDateTime updated_at
+				AttributeConst.DEL_FLAG_FALSE.getIntegerValue() // Integer delete_flag
+		);
+
+		service.create(fv);
+		redirect(ForwardConst.ACT_FOL, ForwardConst.CMD_INDEX);
 	}
 }
