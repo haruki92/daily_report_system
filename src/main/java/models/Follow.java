@@ -22,7 +22,8 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_FOL)
 @NamedQueries({
 		@NamedQuery(name = JpaConst.Q_FOL_GET_FOLLOWS, query = JpaConst.Q_FOL_GET_FOLLOWS_DEF),
-		@NamedQuery(name = JpaConst.Q_FOL_COUNT, query = JpaConst.Q_FOL_COUNT_DEF)
+		@NamedQuery(name = JpaConst.Q_FOL_COUNT, query = JpaConst.Q_FOL_COUNT_DEF),
+//		@NamedQuery(name = JpaConst.Q_GET_FOLLOW_FLAG, query = JpaConst.Q_GET_FOLLOW_FLAG_DEF)
 })
 @Getter
 @Setter
@@ -56,6 +57,6 @@ public class Follow {
 	private LocalDateTime updated_at;
 
 	//	フォロー論理削除フラグ
-	@Column(name = JpaConst.FOL_COL_DELETE_FLAG, nullable = false)
-	private Integer delete_flag;
+	@Column(name = JpaConst.FOL_COL_FOLLOW_FLAG, nullable = false)
+	private Integer follow_flag;
 }

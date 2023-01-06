@@ -1,23 +1,30 @@
 package actions;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 
+import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
+import actions.views.FollowView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.MessageConst;
 import constants.PropertyConst;
+import models.Employee;
 import services.EmployeeService;
+import services.FollowService;
 
 public class AuthAction extends ActionBase {
 	private EmployeeService service;
+	private FollowService followService;
 
 	//	メソッドを実行する
 	@Override
 	public void process() throws ServletException, IOException {
 		service = new EmployeeService();
+		followService = new FollowService();
 
 		//		メソッドを実行
 		invoke();
@@ -56,14 +63,29 @@ public class AuthAction extends ActionBase {
 			if (checkToken()) {
 				//ログインした従業員のDBデータを取得
 				EmployeeView ev = service.findOne(code, plainPass, pepper);
+
 				//セッションにログインした従業員を設定
 				putSessionScope(AttributeConst.LOGIN_EMP, ev);
+
+				//		フォローテーブルに登録されている従業員情報でemployee_id=ログイン中の従業員 
+				//		かつ follow_flag = 0 に当てはまるデータ
+				Employee employee_id = EmployeeConverter
+						.toModel((EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP));
+				List<FollowView> follows = followService.getFollows(employee_id);
+
+				//		ログイン中の従業員がフォロー中の従業員情報をセッションスコープに登録
+				putSessionScope(AttributeConst.FOLLOWS, follows);
+				//				フォロー中の件数
+				putSessionScope(AttributeConst.FOL_COUNT, follows.size());
+
 				//セッションにログイン完了のフラッシュメッセージを設定
 				putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
 				//トップページへリダイレクト
 				redirect(ForwardConst.ACT_TOP, ForwardConst.CMD_INDEX);
 			}
-		} else {
+		} else
+
+		{
 			//認証失敗の場合
 
 			//CSRF対策用トークンを設定

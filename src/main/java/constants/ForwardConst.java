@@ -16,7 +16,9 @@ public enum ForwardConst {
 			"employees/index"), FW_EMP_SHOW("employees/show"), FW_EMP_NEW("employees/new"), FW_EMP_EDIT(
 					"employees/edit"), FW_REP_INDEX("reports/index"), FW_REP_SHOW(
 							"reports/show"), FW_REP_NEW("reports/new"), FW_REP_EDIT(
-									"reports/edit"), FW_FOL_INDEX("follows/index");
+									"reports/edit"), FW_FOL_INDEX(
+											"follows/index"), FW_FOL_SHOW_FOLLOW(
+													"follows/showFollow"), FW_FOL_FOLLOWER_SHOW("follows/showFollower");
 
 	/**
 	 * 文字列

@@ -6,6 +6,7 @@
 <c:set var="actTop" value="${ForwardConst.ACT_TOP.getValue()}" />
 <c:set var="actEmp" value="${ForwardConst.ACT_EMP.getValue()}" />
 <c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actFol" value="${ForwardConst.ACT_FOL.getValue()}" />
 
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
@@ -19,6 +20,16 @@
             </div>
         </c:if>
         <h2>日報管理システムへようこそ</h2>
+        <div id="wrapper">
+        	<div id="follow_count">
+        		<h3>フォロー <a href="<c:url value='?action=${actFol}&command=${commShow}'></c:url>"><c:out value="${sessionScope.follows_count}"></c:out></a></h3>
+        		<br><br>
+        	</div>
+        	<div id="follow_count">
+        		<h3>フォロワー </h3>
+        		<br><br>
+        	</div>
+        </div>
         <h3>【自分の日報　一覧】</h3>
         <table id="report_list">
             <tbody>

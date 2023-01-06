@@ -66,7 +66,8 @@ public class EmployeeConverter {
 						? null
 						: e.getDeleteFlag() == JpaConst.EMP_DEL_TRUE
 								? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
-								: AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+								: AttributeConst.DEL_FLAG_FALSE.getIntegerValue(),
+				false);
 	}
 
 	/**

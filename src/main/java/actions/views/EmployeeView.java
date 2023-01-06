@@ -57,4 +57,6 @@ public class EmployeeView {
 	 */
 	private Integer deleteFlag;
 
+	//	フォローフラグ
+	private Boolean isFollow;
 }

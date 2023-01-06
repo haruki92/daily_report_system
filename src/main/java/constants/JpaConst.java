@@ -44,11 +44,11 @@ public interface JpaConst {
 	String TABLE_FOL = "follows"; // テーブル名
 	//	フォローテーブルカラム
 	String FOL_COL_ID = "id"; // id
-	String FOL_COL_EMP = "employee"; // フォローする従業員のid
-	String FOL_COL_FOL = "follow"; // フォローされる従業員のid
+	String FOL_COL_EMP = "employee_id"; // フォローする従業員のid
+	String FOL_COL_FOL = "follow_id"; // フォローされる従業員のid
 	String FOL_COL_CREATED_AT = "created_at"; // 登録日時
 	String FOL_COL_UPDATED_AT = "updated_at"; // 更新日時
-	String FOL_COL_DELETE_FLAG = "delete_flag"; // 削除フラグ
+	String FOL_COL_FOLLOW_FLAG = "follow_flag"; // 削除フラグ
 
 	int FOL_DEL_TRUE = 1; // フォロー解除フラグON（解除済）
 	int FOL_DEL_FALSE = 0; // フォロー解除フラグOFF（フォロー中）
@@ -62,6 +62,8 @@ public interface JpaConst {
 	String JPQL_PARM_CODE = "code"; //社員番号
 	String JPQL_PARM_PASSWORD = "password"; //パスワード
 	String JPQL_PARM_EMPLOYEE = "employee"; //従業員
+	String JPQL_PARM_FOL_EMP = "employee_id"; // フォローする従業員
+	String JPQL_PARM_FOL_FOL = "follow_id"; // フォローされる従業員
 
 	//NamedQueryの nameとquery
 	//全ての従業員をidの降順に取得する
@@ -77,6 +79,9 @@ public interface JpaConst {
 	//指定した社員番号を保持する従業員の件数を取得する
 	String Q_EMP_COUNT_REGISTERED_BY_CODE = ENTITY_EMP + ".countRegisteredByCode";
 	String Q_EMP_COUNT_REGISTERED_BY_CODE_DEF = "SELECT COUNT(e) FROM Employee AS e WHERE e.code = :" + JPQL_PARM_CODE;
+	//	社員テーブルとフォローテーブルを結合した情報を取得
+	String Q_EMP_GET_JOIN_TABLES = ENTITY_EMP + ".getJoinTables";
+	String Q_EMP_GET_JOIN_TABLES_DEF = "SELECT e FROM Employee AS e INNER JOIN FETCH e.follow ";
 	//全ての日報をidの降順に取得する
 	String Q_REP_GET_ALL = ENTITY_REP + ".getAll";
 	String Q_REP_GET_ALL_DEF = "SELECT r FROM Report AS r ORDER BY r.id DESC";
@@ -90,12 +95,18 @@ public interface JpaConst {
 	//指定した従業員が作成した日報の件数を取得する
 	String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
 	String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
-	//	フォロー中の従業員を取得する
+	//	フォローテーブルに登録されている従業員の中からemployee_id = ログイン中の従業員
+	//	に当てはまるものを取得する
 	String Q_FOL_GET_FOLLOWS = ENTITY_FOL + ".getFollowList";
-	String Q_FOL_GET_FOLLOWS_DEF = "SELECT f FROM Follow AS f ORDER BY f.id DESC";
+	String Q_FOL_GET_FOLLOWS_DEF = "SELECT f FROM Follow AS f WHERE f.follow_flag = 0 AND f.employee_id = :"
+			+ JPQL_PARM_FOL_EMP;
+	//	上記で取得したデータから、follow_id = フォロー対象の従業員id（jspから送信されたリクエストパラメータ）に該当するデータ
+	String Q_FOL_GET_FOLLOW_EMP = ENTITY_FOL + ".getFollowEmployee";
+	String Q_FOL_GET_FOLLOW_EMP_DEF = "SELECT f FROM Follow AS f WHERE f.follow_flag = 0 AND f.employee_id = :"
+			+ JPQL_PARM_FOL_EMP + " AND f.follow_id = :" + JPQL_PARM_FOL_FOL;
 	//	フォロー中の従業員の件数を取得する
 	String Q_FOL_COUNT = ENTITY_FOL + ".getFollowCount";
-	String Q_FOL_COUNT_DEF = "SELECT COUNT(f) FROM Follow AS f";
+	String Q_FOL_COUNT_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.follow_flag = 0";
 	//	フォロワーのリストを取得
 
 }

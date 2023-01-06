@@ -44,11 +44,26 @@ public class EmployeeService extends ServiceBase {
 	}
 
 	/**
+	 * 指定されたページ数の一覧画面に表示するデータを取得し、EmployeeViewのリストで返却する
+	 * @param page ページ数
+	 * @return 表示するデータのリスト
+	 */
+	public List<EmployeeView> getPerPage(int page) {
+		List<Employee> employees = em.createNamedQuery(JpaConst.Q_EMP_GET_ALL, Employee.class)
+				.setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+				.setMaxResults(JpaConst.ROW_PER_PAGE)
+				.getResultList();
+
+		return EmployeeConverter.toViewList(employees);
+	}
+
+	/**
 	 * idを条件に取得したデータをEmployeeViewのインスタンスで返却する
 	 * @param id
 	 * @return 取得データのインスタンス
 	 */
 	public EmployeeView findOne(int id) {
+		System.out.println("fineOneメソッド実行開始");
 		Employee e = findOneInternal(id);
 		return EmployeeConverter.toView(e);
 	}
@@ -222,12 +237,10 @@ public class EmployeeService extends ServiceBase {
 	 * @param ev 画面から入力された従業員の登録内容
 	 */
 	private void update(EmployeeView ev) {
-
 		em.getTransaction().begin();
 		Employee e = findOneInternal(ev.getId());
 		EmployeeConverter.copyViewToModel(e, ev);
 		em.getTransaction().commit();
-
 	}
 
 }

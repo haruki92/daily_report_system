@@ -16,9 +16,9 @@ public class FollowConverter {
 				EmployeeConverter.toModel(fv.getFollow_id()),
 				fv.getCreated_at(),
 				fv.getUpdated_at(),
-				fv.getDelete_flag() == null
+				fv.getFollow_flag() == null
 						? null
-						: fv.getDelete_flag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
+						: fv.getFollow_flag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
 								? JpaConst.FOL_DEL_TRUE
 								: JpaConst.FOL_DEL_FALSE);
 	}
@@ -35,9 +35,9 @@ public class FollowConverter {
 				EmployeeConverter.toView(f.getFollow_id()),
 				f.getCreated_at(),
 				f.getUpdated_at(),
-				f.getDelete_flag() == null
+				f.getFollow_flag() == null
 						? null
-						: f.getDelete_flag() == JpaConst.FOL_DEL_TRUE
+						: f.getFollow_flag() == JpaConst.FOL_DEL_TRUE
 								? AttributeConst.DEL_FLAG_TRUE.getIntegerValue()
 								: AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 	}
@@ -57,10 +57,10 @@ public class FollowConverter {
 	public static void copyViewToModel(Follow f, FollowView fv) {
 		f.setId(fv.getId());
 		f.setEmployee_id(EmployeeConverter.toModel(fv.getEmployee_id()));
-		f.setEmployee_id(EmployeeConverter.toModel(fv.getFollow_id()));
+		f.setFollow_id(EmployeeConverter.toModel(fv.getFollow_id()));
 		f.setCreated_at(fv.getCreated_at());
 		f.setUpdated_at(fv.getUpdated_at());
-		f.setDelete_flag(fv.getDelete_flag());
+		f.setFollow_flag(fv.getFollow_flag());
 	}
 
 }

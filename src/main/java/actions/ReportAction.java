@@ -163,7 +163,7 @@ public class ReportAction extends ActionBase {
 		} else {
 			//			CSRF対策用トークン
 			putRequestScope(AttributeConst.TOKEN, getTokenId());
-			//			取得した日報データ
+			//			取得した日報データ report.reportDateの元
 			putRequestScope(AttributeConst.REPORT, rv);
 
 			//			編集画面を表示

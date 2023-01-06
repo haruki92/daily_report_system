@@ -29,5 +29,5 @@ public class FollowView {
 	private LocalDateTime updated_at;
 
 	//	削除フラグ
-	private Integer delete_flag;
+	private Integer follow_flag;
 }

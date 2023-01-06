@@ -32,7 +32,8 @@ public enum AttributeConst {
 			"title"), REP_CONTENT("content_msg"),
 
 	//	フォロー管理
-	FOLLOW("follow"), FOLLOWS("follows"), FOL_COUNT("follows_count"), FOL_ID("id");
+	FOLLOW("follow"), FOLLOWS("follows"), FOL_COUNT("follows_count"), FOL_ID("id"), FOL_EMP_ID(
+			"employee_id"), FOL_FOL_ID("follow_id");
 
 	private final String text;
 	private final Integer i;
