@@ -127,7 +127,6 @@ public abstract class ActionBase {
 		String _token = getRequestParam(AttributeConst.TOKEN);
 
 		if (_token == null || !(_token.equals(getTokenId()))) {
-
 			//tokenが設定されていない、またはセッションIDと一致しない場合はエラー画面を表示
 			forward(ForwardConst.FW_ERR_UNKNOWN);
 
