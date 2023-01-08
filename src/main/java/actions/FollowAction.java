@@ -130,7 +130,7 @@ public class FollowAction extends ActionBase {
 		}
 	}
 
-	//	従業員一覧を表示
+	//	ログイン者がフォロー中の従業員の日報データを表示
 	public void showFollow() throws ServletException, IOException {
 
 		//		セッションからログイン中の従業員を取得
@@ -155,6 +155,7 @@ public class FollowAction extends ActionBase {
 		forward(ForwardConst.FW_FOL_SHOW_FOLLOW);
 	}
 
+	//	フォロワーの日報リストを表示する
 	public void showFollower() throws ServletException, IOException {
 		EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
@@ -174,5 +175,19 @@ public class FollowAction extends ActionBase {
 		putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); // 1ページに表示するレコードの数
 
 		forward(ForwardConst.FW_FOL_SHOW_FOLLOWER);
+	}
+
+	//	フォロー/フォロワーの日報の詳細画面を表示する
+	public void show() throws ServletException, IOException {
+		ReportView rv = reportService.find0ne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+		if (rv == null) {
+			//			日報データが存在しない場合は、エラー画面を表示
+			forward(ForwardConst.FW_ERR_UNKNOWN);
+		} else {
+			putRequestScope(AttributeConst.REPORT, rv); // 取得した日報データ
+			//			詳細画面を表示
+			forward(ForwardConst.FW_FOL_SHOW);
+		}
 	}
 }

@@ -17,6 +17,37 @@
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
+    <h2>フォロー中の従業員　一覧</h2>
+        <table id="employee_list">
+            <tbody>
+                <tr>
+                    <th>社員番号</th>
+                    <th>氏名</th>
+                </tr>
+                <c:forEach var="employee" items="${follows}" varStatus="status">
+                    <tr class="row${status.count % 2}">
+                        <td><c:out value="${employee.follow_id.code}" /></td>
+                        <td><c:out value="${employee.follow_id.name}" /></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+
+        <div id="pagination">
+            （全 ${sessionScope.follows_count} 件）<br />
+            <c:forEach var="i" begin="1" end="${((sessionScope.follows_count - 1) / maxRow) + 1}" step="1">
+                <c:choose>
+                    <c:when test="${i == page}">
+                        <c:out value="${i}" />&nbsp;
+                    </c:when>
+                    <c:otherwise>
+                        <a href="<c:url value='?action=${actEmp}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </div>
+        <br><br>
+    
     <h2>フォロー中の従業員の日報一覧</h2>
     <table id="report_list">
             <tbody>
@@ -52,5 +83,8 @@
                 </c:choose>
             </c:forEach>
         </div>
+        <p>
+            <a href="<c:url value='?action=${actTop}&command=${commIdx}' />">トップに戻る</a>
+        </p>
     </c:param>
 </c:import>
