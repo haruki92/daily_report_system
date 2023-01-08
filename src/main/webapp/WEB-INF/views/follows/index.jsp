@@ -45,14 +45,12 @@
 	                        			<c:choose>
 	                        				<c:when test="${employee.isFollow == true}">
 	                        					<form method="POST" action="?action=${actFol}&command=${commDes}&id=${employee.id}">
-	                        						<input type="hidden" name="${AttributeConst.FOL_ID.getValue()}" value="${employee.id}" />
 													<input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 	                        						<button id="unfollow">フォロー解除する</button>
 	                        					</form>
 	                        				</c:when>
 	                        				<c:otherwise>
 				                        		<form method="POST" action="?action=${actFol}&command=${commFol}&id=${employee.id}">
-				                        			<input type="hidden" name="${AttributeConst.FOL_ID.getValue()}" value="${employee.id}" />
 													<input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 	                        						<button id="follow">フォローする</button>
 				                            	</form>
