@@ -123,7 +123,10 @@ public class FollowAction extends ActionBase {
 
 		//全日報データの件数を取得
 		long reportsCount = reports.size();
-
+		for (ReportView report : reports) {
+			System.out.println("report: " + report.getTitle() + "を取得しました。");
+		}
+		System.out.println("フォロー中の従業員の日報を " + reportsCount + " 件取得しました。");
 		putRequestScope(AttributeConst.REP_FOL, reports); // 取得したフォロー中の従業員の日報データ
 		putRequestScope(AttributeConst.REP_FOL_COUNT, reportsCount); // フォロー中の従業員全ての日報データの件数
 		putRequestScope(AttributeConst.PAGE, page); //ページ数

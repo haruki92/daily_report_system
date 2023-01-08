@@ -15,7 +15,6 @@
 <c:set var="commDes" value="${ForwardConst.CMD_DESTROY.getValue()}"></c:set>
 
 
-
 <c:import url="../layout/app.jsp">
     <c:param name="content">
     <h2>フォロー中の従業員の日報一覧</h2>
@@ -27,7 +26,7 @@
                     <th class="report_title">タイトル</th>
                     <th class="report_action">操作</th>
                 </tr>
-                <c:forEach var="report" items="${reports}" varStatus="status">
+                <c:forEach var="report" items="${follow_reports}" varStatus="status">
                     <fmt:parseDate value="${report.reportDate}" pattern="yyyy-MM-dd" var="reportDay" type="date" />
 
                     <tr class="row${status.count % 2}">
@@ -41,7 +40,7 @@
         </table>
 
         <div id="pagination">
-            （全 ${reports_count} 件）<br />
+            （全 ${follow_reports_count} 件）<br />
             <c:forEach var="i" begin="1" end="${((reports_count - 1) / maxRow) + 1}" step="1">
                 <c:choose>
                     <c:when test="${i == page}">
