@@ -31,7 +31,7 @@ public class FollowService extends ServiceBase {
 		return em.find(Follow.class, id);
 	}
 
-	//	指定したページ数の一覧画面に表示するデータを取得
+	//	ログイン者がフォロー中の従業員データを取得
 	public List<FollowView> getFollows(Employee employee_id) {
 		List<Follow> follows = em.createNamedQuery(JpaConst.Q_FOL_GET_FOLLOWS, Follow.class)
 				.setParameter(JpaConst.JPQL_PARM_FOL_EMP, employee_id)
@@ -40,12 +40,13 @@ public class FollowService extends ServiceBase {
 		return FollowConverter.toViewList(follows);
 	}
 
-	//	フォロー中の従業員件数を取得
-	public long getFollowCount() {
-		long folCount = em.createNamedQuery(JpaConst.Q_FOL_COUNT, Long.class)
-				.getSingleResult();
+	//	ログイン者のフォロワーの従業員データを取得
+	public List<FollowView> getFolloer(Employee employee_id) {
+		List<Follow> follower = em.createNamedQuery(JpaConst.Q_FOL_GET_FOLLOWER, Follow.class)
+				.setParameter(JpaConst.JPQL_PARM_FOL_FOL, employee_id)
+				.getResultList();
 
-		return folCount;
+		return FollowConverter.toViewList(follower);
 	}
 
 	//	フォローする従業員情報のデータを１件作成し、フォローテーブルに登録する

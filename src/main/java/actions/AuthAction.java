@@ -74,10 +74,13 @@ public class AuthAction extends ActionBase {
 						.toModel((EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP));
 				List<FollowView> follows = followService.getFollows(employee_id);
 
-				//		ログイン中の従業員がフォロー中の従業員情報をセッションスコープに登録
-				putSessionScope(AttributeConst.FOLLOWS, follows);
-				//				フォロー中の件数
-				putSessionScope(AttributeConst.FOL_COUNT, follows.size());
+				putSessionScope(AttributeConst.FOLLOWS, follows); // ログイン者がフォロー中の従業員データ
+				putSessionScope(AttributeConst.FOL_COUNT, follows.size()); // ログイン者がフォロー中の件数
+
+				List<FollowView> follower = followService.getFolloer(employee_id);
+
+				putSessionScope(AttributeConst.FOLLOWER, follower); // ログイン者をフォローしている人の従業員データ
+				putSessionScope(AttributeConst.FOLLOWER_COUNT, follower.size()); // ログイン者のフォロワー数
 
 				//セッションにログイン完了のフラッシュメッセージを設定
 				putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGINED.getMessage());
@@ -105,6 +108,11 @@ public class AuthAction extends ActionBase {
 	public void logout() throws ServletException, IOException {
 		//		セッションからログイン従業員のパラメータを削除
 		removeSessionScope(AttributeConst.LOGIN_EMP);
+		//		ログイン者のフォローデータを全て削除
+		removeSessionScope(AttributeConst.FOLLOW);
+		removeSessionScope(AttributeConst.FOL_COUNT);
+		removeSessionScope(AttributeConst.FOLLOWER);
+		removeSessionScope(AttributeConst.FOLLOWER_COUNT);
 
 		//		セッションにログアウト時のフラッシュメッセージを設定
 		putSessionScope(AttributeConst.FLUSH, MessageConst.I_LOGOUT.getMessage());

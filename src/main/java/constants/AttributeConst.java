@@ -29,11 +29,13 @@ public enum AttributeConst {
 
 	//日報管理
 	REPORT("report"), REPORTS("reports"), REP_COUNT("reports_count"), REP_ID("id"), REP_DATE("report_date"), REP_TITLE(
-			"title"), REP_CONTENT("content_msg"), REP_FOL("follow_reports"), REP_FOL_COUNT("follow_reports_count"),
+			"title"), REP_CONTENT("content_msg"), REP_FOL("follow_reports"), REP_FOL_COUNT(
+					"follow_reports_count"), REP_FOLLOWER(
+							"follower_reports"), REP_FOLLOWER_COUNT("follower_reports_count"),
 
 	//	フォロー管理
 	FOLLOW("follow"), FOLLOWS("follows"), FOL_COUNT("follows_count"), FOL_ID("id"), FOL_EMP_ID(
-			"employee_id"), FOL_FOL_ID("follow_id");
+			"employee_id"), FOL_FOL_ID("follow_id"), FOLLOWER("follower"), FOLLOWER_COUNT("follower_count");
 
 	private final String text;
 	private final Integer i;

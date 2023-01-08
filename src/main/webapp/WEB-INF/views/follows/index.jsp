@@ -30,9 +30,7 @@
                 </tr>
                 <c:forEach var="employee" items="${employees}" varStatus="status">
                    <tr class="row${status.count % 2}">
-                       <td><c:out value="${employee.code}" /><br>
-                       	<c:out value="${employee.isFollow}"></c:out>
-                       </td>
+                       <td><c:out value="${employee.code}" /></td>
                        <td><c:out value="${employee.name}" /></td>
                         <td>
                        		<!-- ログイン中の従業員ではない時にのみ操作表示 -->

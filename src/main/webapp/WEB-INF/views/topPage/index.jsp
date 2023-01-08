@@ -27,7 +27,7 @@
         		<br><br>
         	</div>
         	<div id="follow_count">
-        		<h3>フォロワー <a href="<c:url value='?action=${actFol}&command=${commShowFollower}'></c:url>"><c:out value=""></c:out></a></h3>
+        		<h3>フォロワー <a href="<c:url value='?action=${actFol}&command=${commShowFollower}'></c:url>"><c:out value="${sessionScope.follower_count}"></c:out></a></h3>
         		<br><br>
         	</div>
         </div>

@@ -154,4 +154,25 @@ public class FollowAction extends ActionBase {
 
 		forward(ForwardConst.FW_FOL_SHOW_FOLLOW);
 	}
+
+	public void showFollower() throws ServletException, IOException {
+		EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
+
+		//		指定されたページ数の一覧画面に表示する日報データを取得
+		int page = getPage();
+
+		//		ログイン中の従業員をフォローしている従業員の日報リストを取得
+		List<ReportView> reports = reportService.getfollowerReports(page, ev);
+
+		long reportsCount = reports.size();
+
+		putRequestScope(AttributeConst.TOKEN, getTokenId()); // CSRF対策用トークン
+
+		putRequestScope(AttributeConst.REP_FOLLOWER, reports); // 取得したフォロワーの全日報データ
+		putRequestScope(AttributeConst.REP_FOLLOWER_COUNT, reportsCount); // フォロワーの日報データの件数
+		putRequestScope(AttributeConst.PAGE, page); // ページ数
+		putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); // 1ページに表示するレコードの数
+
+		forward(ForwardConst.FW_FOL_SHOW_FOLLOWER);
+	}
 }

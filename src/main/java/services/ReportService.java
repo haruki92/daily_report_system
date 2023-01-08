@@ -115,4 +115,13 @@ public class ReportService extends ServiceBase {
 		return ReportConverter.toViewList(reports);
 	}
 
+	public List<ReportView> getfollowerReports(int page, EmployeeView ev) {
+		List<Report> reports = em.createNamedQuery(JpaConst.Q_REP_GET_FOLLOWER_REPORTS, Report.class)
+				.setParameter(JpaConst.JPQL_PARM_FOL_FOL, EmployeeConverter.toModel(ev))
+				.setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+				.setMaxResults(JpaConst.ROW_PER_PAGE)
+				.getResultList();
+		return ReportConverter.toViewList(reports);
+	}
+
 }

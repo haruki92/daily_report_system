@@ -93,18 +93,19 @@ public interface JpaConst {
 	String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
 	String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
 	//	ログイン中の従業員がフォローしている従業員の日報リストを取得する
-	String Q_REP_GET_FOLLOW_REPORTS = ENTITY_REP + ".getollowReports";
-	String Q_REP_GET_FOLLOW_REPORTS_DEF = "SELECT r FROM Report r, Follow f where r.employee = f.follow_id AND f.employee_id = :"
-			+ JPQL_PARM_FOL_EMP
-			+ " AND f.follow_flag = 0 ORDER BY r.createdAt";
-	//	フォローテーブルに登録されている従業員の中からemployee_id = ログイン中の従業員
-	//	に当てはまるものを取得する
+	String Q_REP_GET_FOLLOW_REPORTS = ENTITY_REP + ".getFollowReports";
+	String Q_REP_GET_FOLLOW_REPORTS_DEF = "SELECT r FROM Report r, Follow f WHERE r.employee = f.follow_id AND f.employee_id = :"
+			+ JPQL_PARM_FOL_EMP + " AND f.follow_flag = 0 ORDER BY r.createdAt";
+	//	ログイン中の従業員のことをフォローしている従業員の日報リストを取得する
+	String Q_REP_GET_FOLLOWER_REPORTS = ENTITY_REP + ".getFollowerReports";
+	String Q_REP_GET_FOLLOWER_REPORTS_DEF = "SELECT r FROM Report r, Follow f WHERE r.employee = f.employee_id AND f.follow_id = :"
+			+ JPQL_PARM_FOL_FOL + " AND f.follow_flag = 0 ORDER BY r.createdAt";
+	//	ログイン者がフォローしている従業員を取得
 	String Q_FOL_GET_FOLLOWS = ENTITY_FOL + ".getFollowList";
 	String Q_FOL_GET_FOLLOWS_DEF = "SELECT f FROM Follow AS f WHERE f.follow_flag = 0 AND f.employee_id = :"
 			+ JPQL_PARM_FOL_EMP;
-	//	フォロー中の従業員の件数を取得する
-	String Q_FOL_COUNT = ENTITY_FOL + ".getFollowCount";
-	String Q_FOL_COUNT_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.follow_flag = 0";
 	//	フォロワーのリストを取得
-
+	String Q_FOL_GET_FOLLOWER = ENTITY_FOL + ".getFollower";
+	String Q_FOL_GET_FOLLOWER_DEF = "SELECT f FROM Follow AS f WHERE f.follow_flag = 0 AND f.follow_id = :"
+			+ JPQL_PARM_FOL_FOL;
 }

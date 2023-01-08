@@ -22,7 +22,7 @@ import lombok.Setter;
 @Table(name = JpaConst.TABLE_FOL)
 @NamedQueries({
 		@NamedQuery(name = JpaConst.Q_FOL_GET_FOLLOWS, query = JpaConst.Q_FOL_GET_FOLLOWS_DEF),
-		@NamedQuery(name = JpaConst.Q_FOL_COUNT, query = JpaConst.Q_FOL_COUNT_DEF),
+		@NamedQuery(name = JpaConst.Q_FOL_GET_FOLLOWER, query = JpaConst.Q_FOL_GET_FOLLOWER_DEF)
 })
 @Getter
 @Setter
