@@ -12,6 +12,7 @@ import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
+import constants.MessageConst;
 import models.Employee;
 import services.EmployeeService;
 import services.FollowService;
@@ -50,7 +51,6 @@ public class FollowAction extends ActionBase {
 				//				フォローボタンをクリックした従業員 かつ フォローフラグが 0 の時
 				if (employee.getId() == follow.getFollow_id().getId()) {
 					//		EmployeeViewに新設したフォローフラグをtrueにする
-					System.out.println("フォローしている従業員: " + follow.getFollow_id().getName());
 					employee.setIsFollow(true);
 					break;
 				}
@@ -66,6 +66,13 @@ public class FollowAction extends ActionBase {
 		putRequestScope(AttributeConst.EMP_COUNT, employeeCount); //全ての従業員データの件数
 		putRequestScope(AttributeConst.PAGE, page); // ページ数
 		putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); // 1ページに表示するレコードの数
+
+		String flush = getSessionScope(AttributeConst.FLUSH);
+
+		if (flush != null) {
+			putRequestScope(AttributeConst.FLUSH, flush);
+			removeSessionScope(AttributeConst.FLUSH);
+		}
 
 		//		一覧画面を表示
 		forward(ForwardConst.FW_FOL_INDEX);
@@ -90,6 +97,9 @@ public class FollowAction extends ActionBase {
 		//		登録
 		service.create(fv);
 
+		//		フラッシュメッセージをセッションに登録
+		putSessionScope(AttributeConst.FLUSH, fv.getFollow_id().getName() + MessageConst.I_FOLLOWED.getMessage());
+
 		redirect(ForwardConst.ACT_FOL, ForwardConst.CMD_INDEX);
 	}
 
@@ -103,6 +113,9 @@ public class FollowAction extends ActionBase {
 			if (follow.getFollow_id().getId() == toNumber(getRequestParam(AttributeConst.FOL_ID))) {
 				//		論理削除メソッド
 				service.destroy(follow.getId());
+				//				フラッシュメッセージをセッションに登録
+				putSessionScope(AttributeConst.FLUSH,
+						follow.getFollow_id().getName() + MessageConst.I_UNFOLLOWED.getMessage());
 				break;
 			}
 		}
@@ -123,10 +136,6 @@ public class FollowAction extends ActionBase {
 
 		//全日報データの件数を取得
 		long reportsCount = reports.size();
-		for (ReportView report : reports) {
-			System.out.println("report: " + report.getTitle() + "を取得しました。");
-		}
-		System.out.println("フォロー中の従業員の日報を " + reportsCount + " 件取得しました。");
 		putRequestScope(AttributeConst.REP_FOL, reports); // 取得したフォロー中の従業員の日報データ
 		putRequestScope(AttributeConst.REP_FOL_COUNT, reportsCount); // フォロー中の従業員全ての日報データの件数
 		putRequestScope(AttributeConst.PAGE, page); //ページ数
