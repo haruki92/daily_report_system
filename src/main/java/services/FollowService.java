@@ -74,7 +74,6 @@ public class FollowService extends ServiceBase {
 
 	//	フォローデータを更新
 	public void updateFollow(FollowView fv) {
-		System.out.println("updateメソッド実行開始");
 		//		更新日時に現在時刻を設定する
 		LocalDateTime updateTime = LocalDateTime.now();
 		fv.setUpdated_at(updateTime);
@@ -86,18 +85,14 @@ public class FollowService extends ServiceBase {
 		FollowConverter.copyViewToModel(f, fv);
 		//		コミット
 		em.getTransaction().commit();
-		System.out.println("フォロー解除完了");
 	}
 
 	//	idを条件にフォロー中の従業員データを論理削除する
 	//	id = レコードのid = 6 の時 従業員id = 16, 従業員名 = 國平琉希
 	public void destroy(int id) {
-		System.out.println("destroyメソッド実行開始");
 		//		idを条件に登録済のフォローしている従業員情報を取得する
 		//		idは従業員idではなくレコードのid（主キー）
 		FollowView followedEmp = findOne(id);
-
-		System.out.println("従業員名: " + followedEmp.getFollow_id().getName());
 
 		//		取得した従業員の新設したisFollowを true → false に変更する
 		followedEmp.getFollow_id().setIsFollow(false);
@@ -107,4 +102,5 @@ public class FollowService extends ServiceBase {
 		//		更新
 		updateFollow(followedEmp);
 	}
+
 }

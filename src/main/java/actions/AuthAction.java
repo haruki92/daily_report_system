@@ -29,6 +29,7 @@ public class AuthAction extends ActionBase {
 		//		メソッドを実行
 		invoke();
 		service.close();
+		followService.close();
 	}
 
 	//	ログイン画面を表示する

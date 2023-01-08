@@ -8,25 +8,30 @@ import javax.servlet.ServletException;
 import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.FollowView;
+import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import models.Employee;
 import services.EmployeeService;
 import services.FollowService;
+import services.ReportService;
 
 public class FollowAction extends ActionBase {
 	private FollowService service;
 	private EmployeeService employeeService;
+	private ReportService reportService;
 
 	@Override
 	public void process() throws ServletException, IOException {
 		service = new FollowService();
 		employeeService = new EmployeeService();
-
+		reportService = new ReportService();
 		//		メソッドを実行
 		invoke();
 		service.close();
+		employeeService.close();
+		reportService.close();
 	}
 
 	//	一覧画面を表示する
@@ -90,23 +95,15 @@ public class FollowAction extends ActionBase {
 
 	public void destroy() throws ServletException, IOException {
 		//		ログイン中の従業員のフォローリストを取得
-		//		Employee employee_id = EmployeeConverter
-		//				.toModel((EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP));
-		//		List<FollowView> follower = service.getFollows(employee_id);
 		List<FollowView> follower = getSessionScope(AttributeConst.FOLLOWS);
 
 		//		フォローリストの中から フォローされる従業員id と送信されたリクエストパラメータ フォロー解除ボタンを押した解除対象の従業員id が同じ場合
 		//		destroyメソッドを実行
 		for (FollowView follow : follower) {
-			System.out.println("フォロー中の従業員名: " + follow.getFollow_id().getName());
 			if (follow.getFollow_id().getId() == toNumber(getRequestParam(AttributeConst.FOL_ID))) {
-				System.out.println("フォローされる従業員のid: " + follow.getId());
-				System.out.println("フォローされる従業員名: " + follow.getFollow_id().getName());
 				//		論理削除メソッド
 				service.destroy(follow.getId());
 				break;
-			} else {
-				System.err.println(follow.getFollow_id().getName() + " さんのデータが見つかりませんでした。");
 			}
 		}
 
@@ -114,7 +111,24 @@ public class FollowAction extends ActionBase {
 		redirect(ForwardConst.ACT_FOL, ForwardConst.CMD_INDEX);
 	}
 
-	public void followShow() throws ServletException, IOException {
+	public void showFollow() throws ServletException, IOException {
+		//		セッションからログイン中の従業員を取得
+		EmployeeView ev = (EmployeeView) getSessionScope(AttributeConst.LOGIN_EMP);
 
+		//指定されたページ数の一覧画面に表示する日報データを取得
+		int page = getPage();
+
+		//		ログイン中の従業員がフォロー中の従業員の日報リストを取得
+		List<ReportView> reports = reportService.getFollowReports(page, ev);
+
+		//全日報データの件数を取得
+		long reportsCount = reports.size();
+
+		putRequestScope(AttributeConst.REP_FOL, reports); // 取得したフォロー中の従業員の日報データ
+		putRequestScope(AttributeConst.REP_FOL_COUNT, reportsCount); // フォロー中の従業員全ての日報データの件数
+		putRequestScope(AttributeConst.PAGE, page); //ページ数
+		putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE); //1ページに表示するレコードの数
+
+		forward(ForwardConst.FW_FOL_SHOW_FOLLOW);
 	}
 }

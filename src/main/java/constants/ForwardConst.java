@@ -9,7 +9,8 @@ public enum ForwardConst {
 	CMD("command"), CMD_NONE(""), CMD_INDEX("index"), CMD_SHOW("show"), CMD_SHOW_LOGIN("showLogin"), CMD_LOGIN(
 			"login"), CMD_LOGOUT("logout"), CMD_NEW(
 					"entryNew"), CMD_CREATE("create"), CMD_EDIT(
-							"edit"), CMD_UPDATE("update"), CMD_DESTROY("destroy"), CMD_FOLLOW("follow"),
+							"edit"), CMD_UPDATE("update"), CMD_DESTROY("destroy"), CMD_FOLLOW(
+									"follow"), CMD_SHOW_FOLLOW("showFollow"), CMD_SHOW_FOLLOWER("showFollower"),
 
 	//jsp
 	FW_ERR_UNKNOWN("error/unknown"), FW_TOP_INDEX("topPage/index"), FW_LOGIN("login/login"), FW_EMP_INDEX(
@@ -18,7 +19,7 @@ public enum ForwardConst {
 							"reports/show"), FW_REP_NEW("reports/new"), FW_REP_EDIT(
 									"reports/edit"), FW_FOL_INDEX(
 											"follows/index"), FW_FOL_SHOW_FOLLOW(
-													"follows/showFollow"), FW_FOL_FOLLOWER_SHOW("follows/showFollower");
+													"follows/showFollow"), FW_FOL_SHOW_FOLLOWER("follows/showFollower");
 
 	/**
 	 * 文字列

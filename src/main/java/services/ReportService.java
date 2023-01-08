@@ -43,6 +43,7 @@ public class ReportService extends ServiceBase {
 	}
 
 	//	日報テーブルのデータの件数を取得し、返却する
+	@Override
 	public long countAll() {
 		long reports_count = em.createNamedQuery(JpaConst.Q_REP_COUNT, Long.class)
 				.getSingleResult();
@@ -104,4 +105,14 @@ public class ReportService extends ServiceBase {
 		ReportConverter.copyViewToModel(r, rv);
 		em.getTransaction().commit();
 	}
+
+	public List<ReportView> getFollowReports(int page, EmployeeView ev) {
+		List<Report> reports = em.createNamedQuery(JpaConst.Q_REP_GET_FOLLOW_REPORTS, Report.class)
+				.setParameter(JpaConst.JPQL_PARM_FOL_EMP, EmployeeConverter.toModel(ev))
+				.setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+				.setMaxResults(JpaConst.ROW_PER_PAGE)
+				.getResultList();
+		return ReportConverter.toViewList(reports);
+	}
+
 }
