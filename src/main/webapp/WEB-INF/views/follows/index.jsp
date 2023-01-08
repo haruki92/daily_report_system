@@ -29,12 +29,19 @@
                     <th>操作</th>
                 </tr>
                 <c:forEach var="employee" items="${employees}" varStatus="status">
-	                    <tr class="row${status.count % 2}">
-	                        <td><c:out value="${employee.code}" /><br>
-	                        	<c:out value="${employee.isFollow}"></c:out>
-	                        </td>
-	                        <td><c:out value="${employee.name}" /></td>
-		                        <td>
+                   <tr class="row${status.count % 2}">
+                       <td><c:out value="${employee.code}" /><br>
+                       	<c:out value="${employee.isFollow}"></c:out>
+                       </td>
+                       <td><c:out value="${employee.name}" /></td>
+                        <td>
+                       		<!-- ログイン中の従業員ではない時にのみ操作表示 -->
+                       		<c:if test="${sessionScope.login_employee.id != employee.id}">
+                        		<c:choose>
+                        			<c:when test="${employee.deleteFlag == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()}">
+                        				(削除済)
+                        			</c:when>
+                        			<c:otherwise>
 	                        			<c:choose>
 	                        				<c:when test="${employee.isFollow == true}">
 	                        					<form method="POST" action="?action=${actFol}&command=${commDes}&id=${employee.id}">
@@ -47,8 +54,11 @@
 				                            	</form>
 	                        				</c:otherwise>
 	                        			</c:choose>
-		                        </td>
-	                   	 	</tr>
+                        			</c:otherwise>
+                        		</c:choose>
+                       		</c:if>
+                        </td>
+                 	 </tr>
                 </c:forEach>
             </tbody>
         </table>
